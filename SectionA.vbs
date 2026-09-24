@@ -9,7 +9,7 @@ Class Account
         balance = 1000
     End Sub
 
-    Private sub SetDetails(accNo, accHold)
+    Public Sub SetDetails(accNo, accHold)
         accNumber = accNo
         accHolder = accHold
     End Sub
@@ -75,9 +75,9 @@ Set objAccount = New Account
     
 strTitle = "Balance Tracking System"
 
-
+'Takein account number
 Do 
-    accNo = IsNumeric(InputBox("Enter Account Number: (only enter the 7-10 digits)"))
+    accNo = InputBox("Enter Account Number: (only enter the 7-10 digits)")
 
     if Len(accNo) < 7 or Len(accNo) > 10 then
         MsgBox "Account number must be between 7 and 10 digits", 0, strTitle
@@ -88,33 +88,58 @@ Do
     End If
 Loop 
 
+'take in account holder name
 accHold = Trim(InputBox("Enter Account Holder Fullname: "))
 
 objAccount.SetDetails accNo, accHold 'store the account details in the object
 
 'Take in option from the user and perform the corresponding action
 Do
-choice = IsNumeric(InputBox("1-Withdrawal" & VbNewline &  _
-                            "2-Deposit" & VbNewline & _
-                            "3-Transfer" & VbNewline & _
-                            "4-Check Balance" & VbNewline & _
-                            "5-Exit"))
+
+choice = InputBox("1-Withdrawal" & VbNewline &  _
+                    "2-Deposit" & VbNewline & _
+                    "3-Transfer" & VbNewline & _
+                    "4-Check Balance" & VbNewline & _
+                    "5-Exit")
 Select Case (choice)
-    Case 1
+    Case "1"
+
         amount = InputBox("Enter Amount to Withdraw:")
-        objAccount.Withdrawal(amount)
-    case 2
+        If IsNumeric(amount) Then
+        objAccount.Withdrawal CDbl(amount)
+        Else
+            MsgBox "Invalid amount entered. Please enter a numeric value.", 0, strTitle
+        End If
+
+    Case "2"
+
         amount = InputBox("Enter Amount to Deposit")
-        objAccount.Deposit(amount)
-    Case 3
-        amount = InputBox("Enter Amount to Transfer")
+        If IsNumeric(amount) Then
+            objAccount.Deposit CDbl(amount)
+        Else
+            MsgBox "Invalid amount entered. Please enter a numeric value.", 0, strTitle
+        End If
+
+    Case "3"
+
         trAcc = InputBox("Enter Account number you want to transfer too")
-        objAccount.Transfer trAcc, amount 
-    Case 4
+        amount = InputBox("Enter Amount to Transfer")
+        If IsNumeric(amount) Then
+            objAccount.Transfer trAcc, CDbl(amount)
+        Else
+            MsgBox "Invalid amount entered. Please enter a numeric value.", 0, strTitle
+        End If
+
+    Case "4"
+
         objAccount.CheckBalance()
-    Case 5
+
+    Case "5"
+
         Exit Do
+
     Case Else
+        
         MsgBox "Invalid option selected. Please Select a number between 1 and 5", 0, strTitle
 End Select
 
