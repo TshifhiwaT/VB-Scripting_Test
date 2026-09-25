@@ -74,10 +74,10 @@ strTitle = "Balance Tracking System"
 Do 
     accNo = InputBox("Enter Account Number: (only enter the 7-10 digits)")
 
-    if Len(accNo) < 7 or Len(accNo) > 10 then
-        MsgBox "Account number must be between 7 and 10 digits", 0, strTitle
-    ElseIf Not IsNumeric(accNo) then
+    if Not IsNumeric(accNo)  then
         MsgBox "Account number must be numeric", 0, strTitle
+    ElseIf Len(accNo) < 7 or Len(accNo) > 10 then
+        MsgBox "Account number must be between 7 and 10 digits", 0, strTitle
     Else
         Exit Do
     End If
@@ -106,6 +106,7 @@ choice = InputBox("1-Withdrawal" & VbNewline &  _
                     "4-Check Balance" & VbNewline & _
                     "5-Exit")
 Select Case (choice)
+    'Withdrawal
     Case "1"
 
         amount = InputBox("Enter Amount to Withdraw:")
@@ -115,6 +116,7 @@ Select Case (choice)
             MsgBox "Invalid amount entered. Please enter a numeric value.", 0, strTitle
         End If
 
+    'Deposit
     Case "2"
 
         amount = InputBox("Enter Amount to Deposit")
@@ -124,9 +126,22 @@ Select Case (choice)
             MsgBox "Invalid amount entered. Please enter a numeric value.", 0, strTitle
         End If
 
+    'Transfer
     Case "3"
 
-        trAcc = InputBox("Enter Account number you want to transfer too")
+        'capture account number to transfer to
+        Do
+            trAcc = InputBox("Enter Account number you want to transfer too")
+             if Not IsNumeric(trAcc)  then
+               MsgBox "Account number must be numeric", 0, strTitle
+            ElseIf Len(trAcc) < 7 or Len(trAcc) > 10 then
+               MsgBox "Account number must be between 7 and 10 digits", 0, strTitle
+            Else
+               Exit Do
+            End If
+        Loop
+        
+        'capture amount to transfer
         amount = InputBox("Enter Amount to Transfer")
         If IsNumeric(amount) Then
             objAccount.Transfer trAcc, CDbl(amount)
@@ -134,10 +149,12 @@ Select Case (choice)
             MsgBox "Invalid amount entered. Please enter a numeric value.", 0, strTitle
         End If
 
+    'Check Balance
     Case "4"
 
         objAccount.CheckBalance()
 
+    'Exit
     Case "5"
 
         Exit Do
