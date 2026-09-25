@@ -8,11 +8,6 @@ Class Account
     Private sub Class_Initialize()
         balance = 1000
     End Sub
-
-    Public Sub SetDetails(accNo, accHold)
-        accNumber = accNo
-        accHolder = accHold
-    End Sub
     
     Public Sub Withdrawal(amount)
         if amount <= 0 then
@@ -75,7 +70,7 @@ Set objAccount = New Account
     
 strTitle = "Balance Tracking System"
 
-'Takein account number
+'Take in account number
 Do 
     accNo = InputBox("Enter Account Number: (only enter the 7-10 digits)")
 
@@ -89,9 +84,18 @@ Do
 Loop 
 
 'take in account holder name
-accHold = Trim(InputBox("Enter Account Holder Fullname: "))
+Do 
+    accHold = Trim(InputBox("Enter Account Holder Fullname: "))
+    If accHold = "" Then
+        MsgBox "Account holder name cannot be empty", 0, strTitle
+    Else
+        Exit Do
+    End If
+Loop
 
-objAccount.SetDetails accNo, accHold 'store the account details in the object
+'Assign the account number and holder name to the account object
+objAccount.accNumber = accNo
+objAccount.accHolder = accHold
 
 'Take in option from the user and perform the corresponding action
 Do
