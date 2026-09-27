@@ -16,7 +16,8 @@ Class Account
             MsgBox "Insufficient funds for this withdrawal", 0
         Else
             balance = balance - amount
-            MsgBox "Withdrawal of " & amount & " successful. New balance: " & balance, 0
+            MsgBox "Withdrawal of " & amount & " successful." & VbNewLine &_
+                    getAccountDetails(), 0
         End If
     End Sub
 
@@ -25,7 +26,8 @@ Class Account
             MsgBox "Deposit amount must be greater than 0", 0
         Else
             balance = balance + amount
-            MsgBox "Deposit of " & amount & " successful. New balance: " & balance, 0
+            MsgBox "Deposit of " & amount & " successful." & VbNewLine &_
+                    getAccountDetails(), 0
         End If
     End Sub
 
@@ -36,21 +38,22 @@ Class Account
             MsgBox "Insufficient funds for this transfer", 0
         Else
             balance = balance - amount
-            MsgBox "Transfer of " & amount & " to "& trAccount & " successful. New balance: " & balance, 0
+            MsgBox "Transfer of " & amount & " to "& trAccount & " successful." & VbNewLine &_
+                    getAccountDetails(), 0
         End If
     End Sub 
 
     Public Sub CheckBalance()
-        MsgBox "Your Balance Is: "& balance, 0
+        MsgBox getAccountDetails(), 0
     End Sub
 
     Public Function getAccountNumber()
-        getAccountNumber = "Account Number: ACC-"&accNumber
+        getAccountNumber = "ACC-"&accNumber
     End Function
 
     Function getAccountDetails()
         getAccountDetails = "Account Holder: "& accHolder & VbNewline & _
-                            "Account Number: "& accNumber & VbNewline & _
+                            "Account Number: "& getAccountNumber() & VbNewline & _
                             "Balance: " & balance
     End Function
 
