@@ -51,7 +51,7 @@ Class Account
         getAccountNumber = "ACC-"&accNumber
     End Function
 
-    Function getAccountDetails()
+    Public Function getAccountDetails()
         getAccountDetails = "Account Holder: "& accHolder & VbNewline & _
                             "Account Number: "& getAccountNumber() & VbNewline & _
                             "Balance: " & balance
@@ -75,7 +75,7 @@ strTitle = "Balance Tracking System"
 
 'Take in account number
 Do 
-    accNo = InputBox("Enter Account Number: (only enter the 7-10 digits)")
+    accNo = Trim(InputBox("Enter Account Number: (only enter the 7-10 digits)"))
 
     if Not IsNumeric(accNo)  then
         MsgBox "Account number must be numeric", 0, strTitle
@@ -112,7 +112,7 @@ Select Case (choice)
     'Withdrawal
     Case "1"
 
-        amount = InputBox("Enter Amount to Withdraw:")
+        amount = Trim(InputBox("Enter Amount to Withdraw:"))
         If IsNumeric(amount) Then
         objAccount.Withdrawal CDbl(amount)
         Else
@@ -122,7 +122,7 @@ Select Case (choice)
     'Deposit
     Case "2"
 
-        amount = InputBox("Enter Amount to Deposit")
+        amount = Trim(InputBox("Enter Amount to Deposit"))
         If IsNumeric(amount) Then
             objAccount.Deposit CDbl(amount)
         Else
@@ -134,7 +134,7 @@ Select Case (choice)
 
         'capture account number to transfer to
         Do
-            trAcc = InputBox("Enter Account number you want to transfer too")
+            trAcc = Trim(InputBox("Enter Account number you want to transfer to"))
              if Not IsNumeric(trAcc)  then
                MsgBox "Account number must be numeric", 0, strTitle
             ElseIf Len(trAcc) < 7 or Len(trAcc) > 10 then
@@ -145,7 +145,7 @@ Select Case (choice)
         Loop
         
         'capture amount to transfer
-        amount = InputBox("Enter Amount to Transfer")
+        amount = Trim(InputBox("Enter Amount to Transfer"))
         If IsNumeric(amount) Then
             objAccount.Transfer trAcc, CDbl(amount)
         Else
